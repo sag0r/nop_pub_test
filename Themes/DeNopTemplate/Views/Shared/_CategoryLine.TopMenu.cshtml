@@ -1,0 +1,20 @@
+﻿@model TopMenuModel.CategoryLineModel
+<li>
+    <a href="@Url.RouteUrl("Category", new { SeName = Model.Category.SeName })">
+        @Model.Category.Name
+    </a>
+    @if (Model.Category.HaveSubCategories)
+    {
+        <ul>
+
+            @foreach (var category in Model.Category.SubCategories)
+            {
+                var categoryLineModel = new TopMenuModel.CategoryLineModel
+                {
+                    Category = category
+                };
+                @await Html.PartialAsync("_CategoryLine.TopMenu", categoryLineModel)
+            }
+        </ul>
+    }
+</li>

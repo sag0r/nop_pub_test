@@ -1,0 +1,100 @@
+﻿@model SearchBoxModel
+
+@using Nop.Services.Catalog
+@inject ICategoryService _categoryService
+
+@{
+    var categories = _categoryService.GetAllCategoriesByParentCategoryId(0);
+} 
+
+<form asp-route="ProductSearch"
+      method="get"
+      id="small-search-box-form"
+      class="d-flex align-items-center pl-2 pr-2"
+      style="height: 100%;" >
+    @if (Model.ShowSearchBox)
+    {
+        <div class="input-group">
+            <div class="input-group-prepend">
+                <select class="custom-select rounded-0">
+                    <option>All</option>
+                    @foreach(var category in categories)
+                    {
+                        <option value="@category.Id">
+                            @category.Name
+                        </option>
+                    }
+                </select>
+            </div>
+            <input
+                   type="text"
+                   class="form-control" 
+                   id="small-searchterms"
+                   autocomplete="off"
+                   name="q"
+                   placeholder="@T("Search.SearchBox.Tooltip")"
+                   aria-label="@T("Search.SearchBox.Text.Label")"
+                   style="max-width: 400px;" />
+            <div class="input-group-append">
+                <button class="btn bg-theme-dark text-white rounded-0" type="submit">
+                    @T("Search.Button")
+                </button>
+            </div>
+        </div>
+
+        @await Component.InvokeAsync("Widget", new { widgetZone = PublicWidgetZones.SearchBoxBeforeSearchButton })
+
+        @if (Model.SearchTermMinimumLength > 0)
+        {
+            <script asp-location="Footer">
+                $("#small-search-box-form").on("submit", function(event) {
+                    if ($("#small-searchterms").val() == "") {
+                        alert(`@T("Search.EnterSearchTerms")T("Search.EnterSearchTerms")`);
+                        $("#small-searchterms").focus();
+                        event.preventDefault();
+                    }
+                });
+            </script>
+        }
+
+        @if (Model.AutoCompleteEnabled)
+        {
+            <script asp-location="Footer">
+                $(document).ready(function() {
+                    var showLinkToResultSearch;
+                    var searchText;
+                    $('#small-searchterms').autocomplete({
+                            delay: 500,
+                            minLength: @(Model.SearchTermMinimumLength.ToString()),
+                            source: '@(Url.RouteUrl("ProductSearchAutoComplete"))',
+                            appendTo: '.search-box',
+                            select: function(event, ui) {
+                                $("#small-searchterms").val(ui.item.label);
+                                setLocation(ui.item.producturl);
+                                return false;
+                        },
+                        //append link to the end of list
+                        open: function(event, ui) {
+                            //display link to search page
+                            if (showLinkToResultSearch) {
+                                searchText = document.getElementById("small-searchterms").value;
+                                $(".ui-autocomplete").append("<li class=\"ui-menu-item\" role=\"presentation\"><a href=\"/search?q=" + searchText + "\">@T("Search.SearchBox.SearchPageLink")</a></li>");
+                            }
+                        }
+                    })
+                    .data("ui-autocomplete")._renderItem = function(ul, item) {
+                        var t = item.label;
+                        showLinkToResultSearch = item.showlinktoresultsearch;
+                        //html encode
+                        t = htmlEncode(t);
+                        return $("<li></li>")
+                            .data("item.autocomplete", item)
+                            .append("<a>@(Model.ShowProductImagesInSearchAutoComplete ? Html.Raw("<img src='\" + item.productpictureurl + \"'>") : null)<span>" + t + "</span></a>")
+                            .appendTo(ul);
+                    };
+                });
+            </script>
+        }
+        @await Component.InvokeAsync("Widget", new { widgetZone = PublicWidgetZones.SearchBox })
+    }
+</form>

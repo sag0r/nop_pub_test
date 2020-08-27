@@ -1,0 +1,38 @@
+﻿@model Nop.Core.Domain.Catalog.Product
+
+@using Nop.Services.Media
+@inject IPictureService _pictureService 
+
+<div class="product-item-mini card border-light rounded-0">
+    <div class="card-body p-0">
+        <div class="pim-thumb d-flex align-items-center">
+            @{ 
+                var dummyImgUrl = "/Themes/DeNopTemplate/Content/images/dummy/0000567_oculus-rift_360.png";
+                var productImage = _pictureService.GetPicturesByProductId(Model.Id).FirstOrDefault();
+                var imgUrl = productImage != null
+                    ? _pictureService.GetPictureUrl(productImage.Id)
+                    : dummyImgUrl;
+            }
+
+            <img
+                 alt=""
+                 src="@imgUrl"
+                 title=""
+                 class="d-block m-auto w-100 h-100"
+                 loading="lazy" >
+        </div>
+        <div class="pim-descn pt-2 pl-2 pr-2 pb-2">
+            <p class="text-muted cursor-pointer"> @Model.Name </p>
+            <div class="product-rating-box pt-1 pb-2">
+                <i class="far fa-star text-warning"></i>
+                <i class="far fa-star text-warning"></i>
+                <i class="far fa-star text-warning"></i>
+                <i class="far fa-star text-warning"></i>
+                <i class="far fa-star text-warning"></i>
+            </div>
+            <h4 class="text-theme-dark mb-0">
+                $@Math.Round(Model.Price, 2)
+            </h4>
+        </div>
+    </div>
+</div>

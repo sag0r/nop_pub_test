@@ -1,0 +1,116 @@
+﻿@model FooterModel
+@using Nop.Core
+@using Nop.Core.Domain.Tax
+@inject IWorkContext workContext;
+<div class="footer">
+    <div class="container">
+        <div class="row">
+
+            <div class="col-12 col-lg-2">
+                <div class="footer-logo">
+                    @await Component.InvokeAsync("Logo")
+                </div>
+            </div>
+            <div class="col-12 col-lg-6 col-xl-7 text-center text-lg-left mt-5 mt-lg-0">
+                <div class="row">
+                    <div class="col-4">
+                        <h4 class="text-theme-dark"> Information </h4>
+                        <ul class="nav flex-column">
+                            <li class="nav-item">
+                                <a class="nav-link text-muted-x2" href="#">About Us</a>
+                                <a class="nav-link text-muted-x2" href="#">Contact Us</a>
+                                <a class="nav-link text-muted-x2" href="#">News</a>
+                                <a class="nav-link text-muted-x2" href="#">Blog</a>
+                                <a class="nav-link text-muted-x2" href="#">Forum</a>
+                                <a class="nav-link text-muted-x2" href="#">Sitemap</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="col-4">
+                        <h4 class="text-theme-dark"> My Account </h4>
+                        <ul class="nav flex-column">
+                            <li class="nav-item">
+                                <a class="nav-link text-muted-x2" href="#">My Account</a>
+                                <a class="nav-link text-muted-x2" href="#">Orders</a>
+                                <a class="nav-link text-muted-x2" href="#">Addresses</a>
+                                <a class="nav-link text-muted-x2" href="#">Wishlist</a>
+                                <a class="nav-link text-muted-x2" href="#">My Cart</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="col-4">
+                        <h4 class="text-theme-dark"> Other Services</h4>
+                        <ul class="nav flex-column">
+                            <li class="nav-item">
+                                <a class="nav-link text-muted-x2" href="#">Become a Vendor</a>
+                                <a class="nav-link text-muted-x2" href="#">Affiliates</a>
+                                <a class="nav-link text-muted-x2" href="#">Campaigns</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-lg-4 col-xl-3 text-center text-lg-left mt-5 mt-lg-0">
+                <h4 class="text-theme-dark"> Follow Us</h4>
+                <ul class="nav justify-content-center justify-content-lg-start">
+                    <li class="nav-item">
+                        <a class="nav-link text-muted-x2 p-2" href="#">
+                            <i class="fab fa-facebook fa-2x"></i>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-muted-x2 p-2" href="#">
+                            <i class="fab fa-twitter fa-2x"></i>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-muted-x2 p-2" href="#">
+                            <i class="fab fa-linkedin fa-2x"></i>
+                        </a>
+                    </li>
+                </ul>
+                <h4 class="text-theme-dark mt-4 mt-lg-5"> Payment Options</h4>
+                <ul class="nav justify-content-center justify-content-lg-start">
+                    <li class="nav-item">
+                        <a class="nav-link text-muted-x2 p-1" href="#">
+                            <img src="/Themes/DeNopTemplate/Content/images/pay_icon1.png" alt="" />
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-muted-x2 p-1" href="#">
+                            <img src="/Themes/DeNopTemplate/Content/images/pay_icon2.png" alt="" />
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-muted-x2 p-1" href="#">
+                            <img src="/Themes/DeNopTemplate/Content/images/pay_icon3.png" alt="" />
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-muted-x2 p-1" href="#">
+                            <img src="/Themes/DeNopTemplate/Content/images/pay_icon6.png" alt="" />
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+        </div>
+
+        <div class="container footer-below text-center d-flex justify-content-center">
+            @if (!Model.HidePoweredByNopCommerce)
+            {
+            <div class="footer-powered-by ml-2 mr-2">
+                @*Would you like to remove the "Powered by nopCommerce" link in the bottom of the footer?
+                Please find more info at https://www.nopcommerce.com/nopcommerce-copyright-removal-key*@
+                Powered by <a href="https://www.nopcommerce.com/">nopCommerce</a>
+            </div>
+            }
+            <div class="ml-2 mr-2">
+                <i class="fas fa-circle text-muted-x2"></i>
+            </div>
+            <div class="footer-copyright ml-2 mr-2">
+                All Rights Reserved
+            </div>
+        </div>
+    </div>
+</div>

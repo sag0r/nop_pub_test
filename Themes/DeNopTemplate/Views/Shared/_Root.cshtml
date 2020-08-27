@@ -1,0 +1,34 @@
+﻿@{
+    Layout = "_Root.Head";
+}
+@await Component.InvokeAsync("Widget", new { widgetZone = PublicWidgetZones.BodyStartHtmlTagAfter })
+@await Html.PartialAsync("_Notifications")
+@await Html.PartialAsync("_JavaScriptDisabledWarning")
+@await Html.PartialAsync("_OldInternetExplorerWarning")
+<div class="master-wrapper-page">
+    @*@await Component.InvokeAsync("AdminHeaderLinks")*@
+    <header>
+        <div class="w-100">
+            @await Html.PartialAsync("_Header")
+        </div>
+    </header>
+    <section>
+        <div class="w-100">
+            <div class="master-wrapper-content">
+                @await Component.InvokeAsync("Widget", new { widgetZone = PublicWidgetZones.ContentBefore })
+
+                @if (IsSectionDefined("Breadcrumb"))
+                {
+                    @RenderSection("Breadcrumb")
+                }
+                <div class="master-column-wrapper">
+                    @RenderBody()
+                </div>
+                @await Component.InvokeAsync("Widget", new { widgetZone = PublicWidgetZones.ContentAfter })
+            </div>
+        </div>
+    </section>
+    @await Component.InvokeAsync("Footer")
+</div>
+@await Component.InvokeAsync("EuCookieLaw")
+@await Component.InvokeAsync("Widget", new { widgetZone = PublicWidgetZones.BodyEndHtmlTagBefore })
