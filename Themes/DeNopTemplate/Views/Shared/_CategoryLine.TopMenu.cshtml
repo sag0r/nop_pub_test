@@ -5,6 +5,7 @@
     </a>
     @if (Model.Category.HaveSubCategories)
     {
+        Model.Category.SubCategories = Model.Category.SubCategories.Take(7).ToList();
         <ul>
 
             @foreach (var category in Model.Category.SubCategories)
