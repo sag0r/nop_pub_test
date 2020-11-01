@@ -1,0 +1,145 @@
+﻿@using Nop.Core
+@using Nop.Core.Domain.Tax
+@using Nop.Services.Configuration
+
+@model FooterModel
+
+@inject IWorkContext workContext
+@inject IStoreContext storeContext
+@inject ISettingService settingService
+@inject IWebHelper webHelper
+
+@{
+    var storeId = storeContext.CurrentStore.Id;
+    var userAgent = Url.ActionContext.HttpContext.Request.Headers["User-Agent"];
+    var removeCopyright = settingService.GetSettingByKey("venturethemesettings.removecopyright", false, storeId, true);
+    var removeDesignedBy = settingService.GetSettingByKey("venturethemesettings.removedesignedby", false, storeId, true);
+
+    var controllerName = Url.ActionContext.RouteData.Values["controller"].ToString();
+    var isHomePage = controllerName.Equals("home", StringComparison.InvariantCultureIgnoreCase);
+
+    var isIe9 = false;
+    if (!String.IsNullOrEmpty(userAgent) && userAgent.ToString().ToLower().IndexOf("MSIE 9.0", StringComparison.InvariantCultureIgnoreCase) > 0)
+    {
+        isIe9 = true;
+    }
+
+    var showFooterMap = settingService.GetSettingByKey("venturethemesettings.enablefootermap", true, storeId, true);
+
+    var isLoggedIn = !String.IsNullOrEmpty(workContext.CurrentCustomer.Email);
+    var loginUrl = Url.RouteUrl("VendorLogin", new { returnUrl = this.Context.Request.Query["returnUrl"] }, webHelper.CurrentRequestProtocol);
+    var vendorLoginUrl = isLoggedIn ? "/Admin" : loginUrl;
+}
+
+@if (isHomePage)
+{
+    <div class="home-page-footer-banners">
+        @await Component.InvokeAsync("Widget", new { widgetZone = "venture_theme_footer_banner_1" })
+        @await Component.InvokeAsync("Widget", new { widgetZone = "venture_theme_footer_banner_2" })
+        @await Component.InvokeAsync("Widget", new { widgetZone = "venture_theme_footer_banner_3" })
+    </div>
+
+    <div class="courier-partners">
+        <div class="cp-wrap">
+            <ul>
+                <li>
+                    <span>@T("Footer.CourierPartners"): </span>
+                </li>
+                <li>
+                    <img src="/Themes/Venture/Content/img/courier-partners/courier-logo1.jpg" />
+                </li>
+                <li>
+                    <img src="/Themes/Venture/Content/img/courier-partners/courier-logo2.jpg" />
+                </li>
+                <li>
+                    <img src="/Themes/Venture/Content/img/courier-partners/courier-logo3.jpg" />
+                </li>
+                <li>
+                    <img src="/Themes/Venture/Content/img/courier-partners/courier-logo4.jpg" />
+                </li>
+                <li>
+                    <img src="/Themes/Venture/Content/img/courier-partners/courier-logo5.jpg" />
+                </li>
+                <li>
+                    <img src="/Themes/Venture/Content/img/courier-partners/courier-logo6.jpg" />
+                </li>
+                <li>
+                    <img src="/Themes/Venture/Content/img/courier-partners/courier-logo7.jpg" />
+                </li>
+                <li>
+                    <img src="/Themes/Venture/Content/img/courier-partners/courier-logo8.jpg" />
+                </li>
+                <li>
+                    <img src="/Themes/Venture/Content/img/courier-partners/courier-logo9.jpg" />
+                </li>
+            </ul>
+
+
+
+        </div>
+    </div>
+}
+
+
+<footer class="section-footer border-top">
+    <div class="container">
+        <section class="footer-top padding-y">
+            <div class="row">
+                <aside class="col-md-4">
+                    <article class="mr-3">
+                        <img src="bootstrap-ecommerce-html/images/logo.png" class="logo-footer">
+                        <p class="mt-3">Some short text about company like You might remember the Dell computer commercials in which a youth reports this exciting news to his friends.</p>
+                        <div>
+                            <a class="btn btn-icon btn-light" title="Facebook" target="_blank" href="#"><i class="fab fa-facebook-f"></i></a>
+                            <a class="btn btn-icon btn-light" title="Instagram" target="_blank" href="#"><i class="fab fa-instagram"></i></a>
+                            <a class="btn btn-icon btn-light" title="Youtube" target="_blank" href="#"><i class="fab fa-youtube"></i></a>
+                            <a class="btn btn-icon btn-light" title="Twitter" target="_blank" href="#"><i class="fab fa-twitter"></i></a>
+                        </div>
+                    </article>
+                </aside>
+                <aside class="col-sm-3 col-md-2">
+                    <h6 class="title">About</h6>
+                    <ul class="list-unstyled">
+                        <li> <a href="#">About us</a></li>
+                        <li> <a href="#">Services</a></li>
+                        <li> <a href="#">Rules and terms</a></li>
+                        <li> <a href="#">Blogs</a></li>
+                    </ul>
+                </aside>
+                <aside class="col-sm-3 col-md-2">
+                    <h6 class="title">Services</h6>
+                    <ul class="list-unstyled">
+                        <li> <a href="#">Help center</a></li>
+                        <li> <a href="#">Money refund</a></li>
+                        <li> <a href="#">Terms and Policy</a></li>
+                        <li> <a href="#">Open dispute</a></li>
+                    </ul>
+                </aside>
+                <aside class="col-sm-3  col-md-2">
+                    <h6 class="title">For users</h6>
+                    <ul class="list-unstyled">
+                        <li> <a href="#"> User Login </a></li>
+                        <li> <a href="#"> User register </a></li>
+                        <li> <a href="#"> Account Setting </a></li>
+                        <li> <a href="#"> My Orders </a></li>
+                        <li> <a href="#"> My Wishlist </a></li>
+                    </ul>
+                </aside>
+                <aside class="col-sm-2  col-md-2">
+                    <h6 class="title">Our app</h6>
+                    <a href="#" class="d-block mb-2"><img src="bootstrap-ecommerce-html/images/misc/appstore.png" height="40"></a>
+                    <a href="#" class="d-block mb-2"><img src="bootstrap-ecommerce-html/images/misc/playmarket.png" height="40"></a>
+                </aside>
+            </div> <!-- row.// -->
+        </section>	<!-- footer-top.// -->
+
+        <section class="footer-copyright border-top">
+            <p target="_blank" class="float-right text-muted">
+                <a href="#">Privacy &amp; Cookies</a> &nbsp;   &nbsp;
+                <a href="#">Accessibility</a>
+            </p>
+            <p class="text-muted"> © 2020 Company  All rights resetved </p>
+
+        </section>
+    </div><!-- //container -->
+</footer>

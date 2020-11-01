@@ -1,0 +1,120 @@
+﻿<div class="flash-sales mt-3">
+    <div class="container">
+
+        <div class="card rounded-0">
+            <div class="card-header bg-white">
+                <div class="row">
+                    <div class="col-auto pr-5">
+                        <h5 class="mb-0 text-muted"> Flash Sale </h5>
+                        <span class="text-deep-green"> On Sale Now </span>
+                    </div>
+                    <div class="col pl-5">
+                        <span class="d-inline-block float-left mr-3 pt-2 text-muted">Ending in</span>
+                        <div class="countdown-clock d-inline-block d-flex">
+                            <div class="days d-flex text-center shadow-sm">
+                                <div class="align-self-center w-100">
+                                    <span class="clock-text">00</span>
+                                    <span class="clock-label d-none">Days</span>
+                                </div>
+                            </div>
+                            <div class="separator d-flex text-center">
+                                <div class="align-self-center w-100">:</div>
+                            </div>
+                            <div class="hours d-flex text-center shadow-sm">
+                                <div class="align-self-center w-100">
+                                    <span class="clock-text">00</span>
+                                    <span class="clock-label d-none">Hours</span>
+                                </div>
+                            </div>
+                            <div class="separator d-flex text-center">
+                                <div class="align-self-center w-100">:</div>
+                            </div>
+                            <div class="minutes d-flex text-center shadow-sm">
+                                <div class="align-self-center w-100">
+                                    <span class="clock-text">00</span>
+                                    <span class="clock-label d-none">Min</span>
+                                </div>
+                            </div>
+                            <div class="separator d-flex text-center">
+                                <div class="align-self-center w-100">:</div>
+                            </div>
+                            <div class="seconds d-flex text-center shadow-sm">
+                                <div class="align-self-center w-100">
+                                    <span class="clock-text">00</span>
+                                    <span class="clock-label d-none">Sec</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-auto text-right">
+                        <button type="button" class="btn btn-outline-green rounded-0">See All Deals</button>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body pt-2 pb-2">
+                <div class="items-grid">
+                    <div class="row">
+                        <div class="col text-center pt-4">
+                            <span class="text-muted"> Getting flash sale products... </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+</div>
+<script src="/Themes/AgroMukam/Content/js/countdown-timer.js" asp-location="Footer"></script>
+<script asp-location="Footer">
+    $(document).ready(function () {
+        console.log('flash sale deals');
+
+        let discount;
+
+        function calculatePercentage(price, discount) {
+            const discountAmount = (price * discount) / 100;
+            return parseFloat(price - discountAmount).toFixed(2);
+        }
+
+        function appendProducts(collection) {
+            $('.flash-sales .items-grid .row').html('');
+            collection.forEach(function (item) {
+                const html = `<div class="col-2 px-1 py-1">
+                    <div class="item-box p-2 cursor-pointer border">
+                        <div class="item-thumb">
+                            <img src="${item.DefaultPictureModel.ImageUrl}" alt="" class="img-fluid d-block m-auto">
+                        </div>
+                        <div class="item-info">
+                            <span> ${item.Name} </span>
+                        </div>
+                        <div class="item-price">
+                            <span class="current-price d-block text-deep-green">৳${calculatePercentage(item.ProductPrice.PriceValue, discount.DiscountPercentage)} </span>
+                            <span class="old-price text-muted-x"><del>
+                            ${item.ProductPrice.Price}
+                            </del></span>
+                            <span class="discount-percentage"> -${discount.DiscountPercentage}% </span>
+                        </div>
+                    </div>
+                </div>`;
+                $('.flash-sales .items-grid .row').append(html);
+            });
+        }
+
+        $.get('/Product/FlashSaleProducts', function (data) {
+
+            if (data) {
+                discount = data.Discounts[0];
+                const deadline = new Date(discount.EndDateUtc);
+                initializeClock('.countdown-clock', deadline);
+                appendProducts(data.Products);
+            } else {
+                $('.flash-sales .items-grid .row').html(`<div class="col">
+                    <h4> No Flash Sale deals found, check back soon!</h4>
+                </div>`);
+            }
+
+        });
+
+    });
+</script>

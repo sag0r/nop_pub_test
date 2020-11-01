@@ -1,0 +1,27 @@
+﻿@using Nop.Core
+@using Nop.Services.Helpers
+@using Nop.Web.Framework.UI
+@inject IWorkContext workContext
+@inject IThemeContext themeContext
+@inject IUserAgentHelper userAgentHelper
+@{
+    var supportRtl = workContext.WorkingLanguage.Rtl;
+    var themeName = themeContext.WorkingThemeName;
+
+    //add main CSS file
+    if (supportRtl)
+    {
+        Html.AppendCssFileParts($"~/Themes/{themeName}/Content/css/styles.rtl.css");
+    }
+    else
+    {
+        Html.AppendCssFileParts($"~/Themes/{themeName}/Content/css/styles.css");
+        Html.AppendCssFileParts($"https://kit-free.fontawesome.com/releases/latest/css/free.min.css");
+        Html.AppendCssFileParts($"~/Themes/{themeName}/Content/css/bootstrap.min.css");
+    }
+
+    <script asp-location="Footer" src="/Themes/AgroMukam/Content/js/popper.min.js" defer></script>
+    <script asp-location="Footer" src="/Themes/AgroMukam/Content/js/bootstrap.min.js" defer></script>
+    <script asp-location="Footer" src="/Themes/AgroMukam/Content/js/jquery.hoverIntent.min.js" defer></script>
+    <script asp-location="Footer" src="/Themes/AgroMukam/Content/js/script.js" defer></script>
+}
