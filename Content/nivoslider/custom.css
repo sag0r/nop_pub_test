@@ -1,0 +1,64 @@
+﻿.nivo-banner {
+  min-height: 420px;
+  /* background-image: linear-gradient(282deg, rgba(174,213,121,0), rgba(99,144,56,0.8)),url(img/andy-kelly-5APBLfC2hUs-unsplash.jpg); */
+  background-image: linear-gradient(282deg, rgba(174,213,121,0), rgba(99,144,56,0.8));
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
+  transition: all .5s ease-in-out;
+}
+
+.fade-effect {
+  -webkit-animation: fade 3s; /* Chrome, Safari, Opera */
+  animation: fade 3s;
+}
+
+.typed-cursor {
+  font-size: 35px;
+}
+
+.banner-content h3 {
+  font-size: 26px;
+  line-height: 28px;
+  text-align: justify;
+}
+
+.typed-caption {
+  font-size: 40px;
+  line-height: 42px;
+  font-weight: bold;
+}
+
+.typed-text {
+  font-size: 26px;
+  line-height: 28px;
+  margin-top: 10px;
+}
+
+.banner-caption-right {
+  background: rgba(116,171,78,0.7);
+  height: 420px;
+}
+
+/* Chrome, Safari, Opera */
+@-webkit-keyframes fade {
+  from {
+    opacity: 0.4;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+/* Standard syntax */
+@keyframes fade {
+  from {
+    opacity: 0.4;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
