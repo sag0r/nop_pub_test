@@ -1,0 +1,126 @@
+﻿@model CustomerWishResponseSearchModel
+
+@{
+    //page title
+    ViewBag.Title = T("Admin.Sales.CustomerWish").Text;
+    //active menu item (system name)
+    Html.SetActiveMenuItemSystemName("CustomerWish");
+}
+
+<style>
+    .d-block {
+        display: block !important;
+    }
+    .d-none {
+        display: none !important;
+    }
+    .cursor-pointer {
+        cursor: pointer !important;
+    }
+    .w-100 {
+        width: 100% !important;
+    }
+</style>
+
+<nop-antiforgery-token />
+<form class="content">
+    <div class="panel-group">
+        <div class="panel panel-default">
+            <div class="panel-body">
+
+                <h5>Hint: Just toggle Published checkbox to active/inactive a response, no need to click Save.</h5>
+
+                @await Html.PartialAsync("Table", new DataTablesModel
+           {
+               Name = "customer-wish-response-list",
+               UrlRead = new DataUrl("ResponseList", "CustomerWish", new RouteValueDictionary { [nameof(Model.CustomerWishRequestId)] = Model.CustomerWishRequestId }),
+               Length = Model.PageSize,
+               LengthMenu = Model.AvailablePageSizes,
+               ColumnCollection = new List<ColumnProperty>
+                    {
+                        new ColumnProperty(nameof(CustomerWishResponseModel.Id))
+                        {
+                            Title = "#"
+                        },
+                        new ColumnProperty(nameof(CustomerWishResponseModel.IsActive))
+                        {
+                            Title = "Published",
+                            Render = new RenderCustom("renderCheckbox")
+                        },
+                        new ColumnProperty(nameof(CustomerWishResponseModel.CommentText))
+                        {
+                            Title = "Response",
+                            Render = new RenderCustom("renderEditableField")
+                        },
+                        new ColumnProperty(nameof(CustomerWishResponseModel.ProposedPrice))
+                        {
+                            Title = "Proposed Price"
+                        },
+                        new ColumnProperty(nameof(CustomerWishResponseModel.ResponseBy))
+                        {
+                            Title = "Response By"
+                        },
+                        new ColumnProperty(nameof(CustomerWishResponseModel.DeliveryEndDateUtc))
+                        {
+                            Title = "ETA"
+                        }
+                    }
+           })
+            </div>
+
+            <script>
+                function renderCheckbox(data, type, row, meta) {
+                    return `<div class="text-center"><input class="check-box" type="checkbox" name="responseStatus" value="${row.Id}" ${data ? "checked" : ""} ></div>`;
+                }
+
+                function renderEditableField(data, type, row, meta) {
+                    const el = `<div class="row">
+                            <div class="col-xs-9">
+                                <div class="form-group w-100">
+                                    <span> ${data} </span>
+                                    <textarea class="form-control w-100 d-none" id="comment-${row.Id}">${data}</textarea>
+                                </div>
+                            </div>
+                            <div class="col-xs-3 text-center">
+                                <i class="fa fa-pencil-square-o edit-response cursor-pointer"></i>
+                                <button type="button" data-id="${row.Id}" class="btn btn-primary btn-sm d-none save-response"><i class="fa fa-check"></i></button>
+                            </div>
+                        </div>`
+                    return el;
+                }
+
+                function updateResponse(id, comment, isActive) {
+                    const param = `wishResponseId=${id}&comment=${comment}&isActive=${isActive}`;
+                    const url = `/Admin/CustomerWish/EditWishResponse?${param}`;
+                    $.get(url, function (data) {
+                        $('#customer-wish-response-list').DataTable().ajax.reload();
+                    });
+                }
+
+                $(document).ready(function () {
+                    $(document).on('click', 'input[name="responseStatus"]', function () {
+                        const id = $(this).val();
+                        const comment = $(`#comment-${id}`).val();
+                        const isActive = $(this).is(':checked');
+                        updateResponse(id, comment, isActive);
+                    });
+
+                    $(document).on('click', '.edit-response', function () {
+                        $(this).parent().prev().find('textarea').removeClass('d-none');
+                        $(this).parent().prev().find('span').hide();
+                        $(this).next().removeClass('d-none');
+                        $(this).hide();
+                    });
+
+                    $(document).on('click', '.save-response', function () {const id = $(this).data('id');
+                        const isActive = $(`input[name="responseStatus"][value="${id}"]`).is(':checked');
+                        const comment = $(`#comment-${id}`).val();
+                        updateResponse(id, comment, isActive);
+                    });
+                });
+            </script>
+
+
+        </div>
+    </div>
+</form>

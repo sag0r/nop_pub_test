@@ -1,0 +1,69 @@
+﻿@model IList<CategoryModel>
+@using Nop.Services.Catalog
+@using Nop.Services.Media 
+@using Nop.Web.Models.Catalog 
+@inject IPictureService pictureService
+@inject IProductService productService 
+
+@if (Model.Count > 0)
+{
+    var featuredProducts = productService.GetAllProductsDisplayedOnHomepage();
+    var dummyProducts = featuredProducts.Take(8).Select(x =>
+    {
+        return new
+        {
+            Id = x.Id,
+            Name = x.Name,
+            Price = x.Price
+        };
+    });
+    foreach (var category in Model)
+    {
+        <section class="padding-bottom container-fluid">
+            <header class="section-heading heading-line">
+                <h4 class="title-section">
+                    <a href="@Url.RouteUrl("Category", new { SeName = category.SeName })" class="card-title text-white" title="@category.PictureModel.Title" style="color: #212529 !important;">
+                        @category.Name
+                    </a>
+                </h4>
+            </header>
+
+            <div class="card card-home-category border-0 rounded-0">
+                <div class="row no-gutters">
+                    <div class="col-md-3">
+
+                        <div class="home-category-banner bg-light-green">
+                            <h4>Ads Space</h4>
+                            <img src="@category.PictureModel.ImageUrl" class="img-bg">
+                        </div>
+
+                    </div> <!-- col.// -->
+                    <div class="col-md-9">
+                        <ul class="row no-gutters bordered-cols">
+
+                            @foreach (var item in dummyProducts)
+                            {
+                                <li class="col-6 col-lg-3 col-md-4">
+                                    <a href="#" class="item">
+                                        <div class="card-body">
+                                            <h6 class="title">@item.Name</h6>
+                                            @{
+                                                var picture = pictureService.GetPicturesByProductId(item.Id).FirstOrDefault();
+                                                var imgSrc = picture != null
+                                                    ? pictureService.GetPictureUrl(picture.Id)
+                                                    : "/Theme/RootTheme/Content/images/placeholder.png";
+
+                                            }
+                                            <img class="img-sm float-right" src="@imgSrc" loading="lazy">
+                                            <p class="text-muted mt-3 text-light-green"><i class="fa fa-money-bill-alt"></i> @item.Price.ToString("#0.00")</p>
+                                        </div>
+                                    </a>
+                                </li>
+                            }
+                        </ul>
+                    </div> <!-- col.// -->
+                </div> <!-- row.// -->
+            </div> <!-- card.// -->
+        </section>
+    }
+}
