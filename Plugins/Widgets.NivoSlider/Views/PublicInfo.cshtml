@@ -1,0 +1,109 @@
+﻿@model Nop.Plugin.Widgets.NivoSlider.Models.PublicInfoModel
+@{
+    Layout = "";
+    Html.AddCssFileParts("~/Plugins/Widgets.NivoSlider/Content/banner.css");
+}
+
+<div class="slider-wrapper nivo-banner">
+    @if (!string.IsNullOrEmpty(Model.Picture1Url))
+    {
+        <img class="slider d-none" data-caption="@Model.Text1" data-text="@Model.AltText1"
+             src="@Model.Picture1Url" loading="lazy">
+    }
+    @if (!string.IsNullOrEmpty(Model.Picture2Url))
+    {
+        <img class="slider d-none" data-caption="@Model.Text2" data-text="@Model.AltText2"
+             src="@Model.Picture2Url" loading="lazy">
+    }
+    @if (!string.IsNullOrEmpty(Model.Picture3Url))
+    {
+        <img class="slider d-none" data-caption="@Model.Text3" data-text="@Model.AltText3"
+             src="@Model.Picture3Url" loading="lazy">
+    }
+    @if (!string.IsNullOrEmpty(Model.Picture4Url))
+    {
+        <img class="slider d-none" data-caption="@Model.Text4" data-text="@Model.AltText4"
+             src="@Model.Picture4Url" loading="lazy">
+    }
+    @if (!string.IsNullOrEmpty(Model.Picture5Url))
+    {
+        <img class="slider d-none" data-caption="@Model.Text5" data-text="@Model.AltText5"
+             src="@Model.Picture5Url" loading="lazy">
+    }
+
+    <div class="container-fluid banner-content">
+        <div class="row">
+            <div class="col-12 col-lg-6 offset-lg-1 pt-5 text-white">
+                <h3 class="mb-4 pt-5 pt-lg-3 text-white text-center text-lg-justify"> @Model.StaticTagLineText </h3>
+                <div id="typed-strings">
+                    <span>
+                        <span class="typed-caption"></span>
+                        <br>
+                        <span class="typed-text"></span>
+                    </span>
+                </div>
+                <div class="text-center text-lg-left">
+                    <span id="typed"></span>
+                </div>
+            </div>
+            <div class="col-lg-4 col-xl-3 offset-xl-1 d-none d-lg-block">
+                <div class="banner-caption-right pt-5 pl-3 pr-3 text-white text-center position-relative">
+                    <h5 class="text-white"> @Model.BoxTextTop </h5>
+                    <div class="bcr-categories d-flex justify-content-center flex-wrap mt-3">
+                        @if (!string.IsNullOrEmpty(Model.BoxIcon1Url))
+                        {
+                            <div class="bg-white rounded-circle mx-2 my-3" style="width: 55px; height: 55px;">
+                                <a href="@Model.BoxIcon1Link">
+                                    <img src="@Model.BoxIcon1Url" alt="" class="img-fluid p-2 m-auto d-block" loading="lazy">
+                                    <span>@Model.BoxIcon1Text</span>
+                                </a>
+                            </div>
+                        }
+                        @if (!string.IsNullOrEmpty(Model.BoxIcon2Url))
+                        {
+                            <div class="bg-white rounded-circle mx-2 my-3" style="width: 55px; height: 55px;">
+                                <a href="@Model.BoxIcon2Link">
+                                    <img src="@Model.BoxIcon2Url" alt="" class="img-fluid p-2 m-auto d-block" loading="lazy">
+                                    <span>@Model.BoxIcon2Text</span>
+                                </a>
+                            </div>
+                        }
+                        @if (!string.IsNullOrEmpty(Model.BoxIcon3Url))
+                        {
+                            <div class="bg-white rounded-circle mx-2 my-3" style="width: 55px; height: 55px;">
+                                <a href="@Model.BoxIcon3Link">
+                                    <img src="@Model.BoxIcon3Url" alt="" class="img-fluid p-2 m-auto d-block" loading="lazy">
+                                    <span>@Model.BoxIcon3Text</span>
+                                </a>
+                            </div>
+                        }
+                        @if (!string.IsNullOrEmpty(Model.BoxIcon4Url))
+                        {
+                            <div class="bg-white rounded-circle mx-2 my-3" style="width: 55px; height: 55px;">
+                                <a href="@Model.BoxIcon4Link#">
+                                    <img src="@Model.BoxIcon4Url" alt="" class="img-fluid p-2 m-auto d-block" loading="lazy">
+                                    <span>@Model.BoxIcon4Text</span>
+                                </a>
+                            </div>
+                        }
+                        @if (!string.IsNullOrEmpty(Model.BoxIcon5Url))
+                        {
+                            <div class="bg-white rounded-circle mx-2 my-3" style="width: 55px; height: 55px;">
+                                <a href="@Model.BoxIcon5Link">
+                                    <img src="@Model.BoxIcon5Url" alt="" class="img-fluid p-2 m-auto d-block" loading="lazy">
+                                    <span>@Model.BoxIcon5Text</span>
+                                </a>
+                            </div>
+                        }
+                    </div>
+                    <div class="bcr-bottom pb-4 pl-3 pr-3">
+                        <h6 class="text-white">@Model.BoxTextBottom</h6>
+                        <button class="btn bg-light-green text-white rounded-0 mt-3 shadow"> @Model.BoxButtonText </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="/Plugins/Widgets.NivoSlider/Scripts/typed.js" asp-location="Footer" defer></script>
+<script src="/Plugins/Widgets.NivoSlider/Scripts/banner.js" asp-location="Footer" defer></script>

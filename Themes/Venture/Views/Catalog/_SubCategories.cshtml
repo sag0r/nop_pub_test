@@ -1,0 +1,37 @@
+﻿@model List<CategorySimpleModel>
+@using Nop.Services.Media
+@inject IPictureService _pictureService 
+
+
+@{ 
+    var categoriesWithChild = Model.Where(x => x.SubCategories.Count > 0).ToList();
+    var categoriesWithoutChild = Model.Where(x => x.SubCategories.Count == 0).ToList();
+}
+
+@if (categoriesWithoutChild.Count > 0)
+{
+    <div class="w-100 row m-auto">
+        @foreach (var category in categoriesWithoutChild)
+        {
+            <div class="col-4">
+                <img src="@category.PictureModel.ImageUrl"
+                     class="d-block img-fluid m-auto"
+                     style="height: 60px; width: 100px;" />
+                <span class="d-block text-center mt-2"> @category.Name </span>
+            </div>
+        }
+    </div>
+}
+
+@if(categoriesWithChild.Count > 0)
+{
+    <div class="accordion">
+        @foreach (var category in categoriesWithChild)
+        {
+            <h3 style="border-color: #eee;"> @category.Name </h3>
+            <div style="border-color: #eee;">
+                @await Html.PartialAsync("_SubCategories", category.SubCategories)
+            </div>
+        }
+     </div>
+}

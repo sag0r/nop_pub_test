@@ -1,0 +1,145 @@
+﻿@model FeaturedProductModel
+@using Nop.Core.Domain.Catalog
+@using Nop.Services
+
+<div class="panel-body">
+    <div class="panel-group">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                @if (Model.Id > 0)
+                {
+                    <div class="form-group">
+                        <div class="col-sm-3">
+                            <div class="label-wrapper">
+                                <label class="control-label">Product</label>
+                            </div>
+                        </div>
+                        <div class="col-sm-9">
+                            <div class="form-text-row">@Model.ProductName</div>
+                            <input type="hidden" asp-for="ProductId" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-3">
+                            <div class="label-wrapper">
+                                <label class="control-label">Category</label>
+                            </div>
+                        </div>
+                        <div class="col-sm-9">
+                            <div class="form-text-row">@Model.ProductCategoryName</div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-3">
+                            <div class="label-wrapper">
+                                <label class="control-label">Vendor</label>
+                            </div>
+                        </div>
+                        <div class="col-sm-9">
+                            <div class="form-text-row">@Model.ProductVendorName</div>
+                        </div>
+                    </div>
+                }
+                else
+                {
+                    <div class="form-group">
+                        <div class="col-md-3">
+                            <nop-label asp-for="ProductId" />
+                        </div>
+                        <div class="col-md-9">
+                            <div class="input-group input-group-sm">
+                                <input type="text" id="search-product-name" autocomplete="off" class="form-control" placeholder="Type to search for product..." />
+                                <span class="input-group-addon cursor-pointer" id="search-product-clear">
+                                    <i class="fa fa-pencil"></i>
+                                </span>
+                                <input asp-for="ProductId" autocomplete="off" style="display: none;" />
+                                <script>
+                                    $(document).ready(function() {
+                                        $('#search-product-name').autocomplete({
+                                            delay: 500,
+                                            minLength: 3,
+                                            source: '@Url.Action("ProductSearchAutoComplete", "SearchComplete")',
+                                            select: function(event, ui) {
+                                                $('#@Html.IdFor(model => model.ProductId)').val(ui.item.value);
+                                                $('#search-product-name').val(ui.item.label);
+                                                $('#search-product-clear i').removeClass('fa-pencil').addClass('fa-times');
+                                                return false;
+                                            }
+                                        })
+                                            .data('ui-autocomplete')
+                                            ._renderItem = function (ul, item) {
+                                                $(ul).addClass('list-group no-border');
+                                                return $("<li>")
+                                                    .addClass('list-group-item')
+                                                    .data("ui-autocomplete-item", item)
+                                                    .append(`<a class="cursor-pointer" style="padding: 10px; border: none;">
+                                                        <span class="badge pull-left">
+                                                        ${item.category == '' ? 'Uncategorized' : item.category}
+                                                        </span><br>
+                                                        <h4 class="list-group-item-heading">${item.label}</h4>
+                                                        <small>${item.vendor}</small>
+                                                    </a>`)
+                                                    .appendTo(ul);
+                                            };
+
+                                        //remove button
+                                        $('#search-product-clear').click(function() {
+                                            $('#@Html.IdFor(model => model.ProductId)').val('0');
+                                            $('#search-product-name').val('');
+                                            $('#search-product-clear i').removeClass('fa-times').addClass('fa-pencil');
+                                            return false;
+                                        });
+                                    });
+                                </script>
+                            </div>                            
+                        </div>
+                    </div>
+                }
+            </div>
+            <div class="panel-body">
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <nop-label asp-for="PlacementId" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-select asp-for="PlacementId" asp-items="@(((FeatureProductPlacementOption) Model.PlacementId).ToSelectList())" />
+                        <span asp-validation-for="PlacementId"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="panel-body">
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <nop-label asp-for="Priority" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-select asp-for="Priority" asp-items="@(((FeaturedProductPriority) Model.Priority).ToSelectList())" />
+                        <span asp-validation-for="Priority"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="panel-body">
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <nop-label asp-for="StartDateUtc" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="StartDateUtc" />
+                        <span asp-validation-for="StartDateUtc"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="panel-body">
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <nop-label asp-for="EndDateUtc" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="EndDateUtc" />
+                        <span asp-validation-for="EndDateUtc"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

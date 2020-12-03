@@ -1,0 +1,126 @@
+﻿@using Nop.Web.Areas.Admin.Models.Catalog
+@using Nop.Services.Catalog
+@using Nop.Core.Domain.Catalog
+@model CategoryProductCollectionSearchModel
+
+@inject ICategoryService _categoryService;
+
+
+@{
+    //page title
+    ViewBag.Title = T("Admin.Promotions.CategoryProductCollection").Text;
+    //active menu item (system name)
+    Html.SetActiveMenuItemSystemName("CategoryProductCollection");
+}
+
+<nop-antiforgery-token />
+<div class="content-header clearfix">
+    <h1 class="pull-left">
+        @T("Admin.Promotions.CategoryProductCollection")
+    </h1>
+    <div class="pull-right">
+        <a asp-action="Create" class="btn bg-blue">
+            <i class="fa fa-plus-square"></i>
+            @T("Admin.Common.AddNew")
+        </a>
+        @await Component.InvokeAsync("AdminWidget", new { widgetZone = AdminWidgetZones.SpecificationAttributeListButtons })
+    </div>
+</div>
+
+<div class="content">
+    <div class="panel-group">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <p>
+                    List of Category Product Collection
+                </p>
+                @await Html.PartialAsync("Table", new DataTablesModel
+           {
+               Name = "CategoryProductCollection-grid",
+               UrlRead = new DataUrl("List", "CategoryProductCollection", null),
+               Length = Model.PageSize,
+               LengthMenu = Model.AvailablePageSizes,
+               ColumnCollection = new List<ColumnProperty>
+                    {
+                        new ColumnProperty(nameof(CategoryProductCollectionModel.CategoryId))
+                        {
+                            Title = T("Admin.Promotions.CategoryProductCollection.Fields.CategoryName").Text,
+
+                        },
+                        new ColumnProperty(nameof(CategoryProductCollectionModel.PromotionTypeId))
+                        {
+                            Title = T("Admin.Promotions.CategoryProductCollection.Fields.PromotionType").Text,
+
+                        },
+                        new ColumnProperty(nameof(CategoryProductCollectionModel.ProductId))
+                        {
+                            Title = T("Admin.Promotions.CategoryProductCollection.Fields.ProductName").Text,
+
+                        },
+                        new ColumnProperty(nameof(CategoryProductCollectionModel.StartDateUtc))
+                        {
+                            Title = T("Admin.Promotions.CategoryProductCollection.Fields.StartDate").Text,
+
+                        },
+                        new ColumnProperty(nameof(CategoryProductCollectionModel.EndDateUtc))
+                        {
+                            Title = T("Admin.Promotions.CategoryProductCollection.Fields.EndDate").Text,
+
+                        },
+                        new ColumnProperty(nameof(CategoryProductCollectionModel.IsActive))
+                        {
+                            Title = T("Admin.Promotions.CategoryProductCollection.Fields.IsActive").Text,
+
+                        },
+                        new ColumnProperty(nameof(CategoryProductCollectionModel.Id))
+                        {
+                            Title = T("Admin.Common.Edit").Text,
+                            Width = "100",
+                            ClassName =  NopColumnClassDefaults.Button,
+                            Render = new RenderButtonEdit(new DataUrl("Edit"))
+                        }
+                    }
+           })
+
+                <script>
+
+                    var categories = [];
+                    
+                    var PromotionType = [
+                        { id: 10, value: 'New Arrival' },
+                        { id: 20, value: 'Featured Product' },
+                        { id: 30, value: 'BestSeller' }
+                    ];
+                    var products = [];
+                    
+                    function renderCategoryName(data, type, row, meta) {
+                        if (row.CategoryId == 0) {
+                            return 'Unspecified';
+                        }
+
+                        var category = categories.find(x => x.Value == row.CategoryId);
+                        var name = `${category ? category.Text : 'Unknown'}`;
+                        return name;
+                    }
+
+                    function renderPromotionTypeValue(data, type, row, meta) {
+                        var place = places.find(x => x.id == row.PromotionTypeId);
+                        return !place ? "Unspecified" : place.value;
+                    }
+
+                    function renderProductName(data, type, row, meta) {
+                        if (row.ProductId == 0) {
+                            return 'Unspecified';
+                        }
+
+                        var product = products.find(x => x.value == row.ProductId);                    
+                        var name = `${product ? product.Text : 'Unknown'}`;
+                        return name;
+                    }
+
+                    
+                </script>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,17 @@
+﻿@model FeaturedProductModel
+
+@{
+    const string hideInfoBlockAttributeName = "FeaturedProductPage.HideInfoBlock";
+    var hideInfoBlock = genericAttributeService.GetAttribute<bool>(workContext.CurrentCustomer, hideInfoBlockAttributeName);
+}
+
+<div asp-validation-summary="All"></div>
+<input asp-for="Id" type="hidden" />
+
+<div class="content">
+    <div class="form-horizontal">
+        <nop-panels id="featured-product-panels">
+            <nop-panel asp-name="featured-product-info" asp-icon="fa fa-info" asp-title="@T("Admin.Promotions.FeaturedProducts.Info")" asp-hide-block-attribute-name="@hideInfoBlockAttributeName" asp-hide="@hideInfoBlock">@await Html.PartialAsync("_CreateOrUpdate.Info", Model)</nop-panel>
+        </nop-panels>
+    </div>
+</div>
