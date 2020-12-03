@@ -1,156 +1,198 @@
-﻿@using Nop.Web.Areas.Admin.Models.Catalog
-@using Nop.Services.Catalog
-@using Nop.Web.Areas.Admin.Factories
+﻿@model CategoryProductCollectionModel
 
+@using Nop.Core.Domain.Catalog
+@using Nop.Services
+ 
+    <style>
+        input + .input-group-addon {
+            cursor: pointer;
+        }
 
-@model CategoryProductCollectionModel
-@inject ICategoryService _categoryService;
-@inject ICategoryProductCollectionService _categoryProductCollectionService;
+        input[disabled] + .input-group-addon {
+            cursor: not-allowed;
+            pointer-events: none;
+            opacity: .5;
+        }
+    </style>
 
+    <div class="panel-body">
+        <div class="panel-group">
+            <div class="panel panel-default">
 
-@{
-    var temp = _categoryService.GetAllCategoriesDisplayedOnHomepage();
-    var categories = temp.Select(x =>
-    {
-        return new SelectListItem
-        {
-            Text = x.Name,
-            Value = x.Id.ToString()
-        };
-    });
-}
-
-<div class="panel-body">
-    <div class="panel-group">
-        <div class="panel panel-default">
-            <div class="panel-body">
-                <div class="form-group">
-                    <div class="col-md-3">
-                        <nop-label asp-for="CategoryId" />
-                    </div>
-                    <div class="col-md-9">
-                        <select asp-for="CategoryId" class="form-control">
-                            <option value="0">N/A</option>
-                            @foreach (var category in categories)
-                            {
-                                <option value="@category.Value">@category.Text</option>
-                            }
-                        </select>
-                        <span asp-validation-for="CategoryId"></span>
-                    </div>
-                </div>
-            </div>
-            @*<div class="panel-body">
-            <div class="form-group">
-                <div class="col-md-3">
-                    <nop-label asp-for="AvailableCategories" />
-                </div>
-                <div class="col-md-9">
-                    <select asp-for="AvailableCategories" asp-items="@Model.AvailableCategories" />
-                    <span asp-validation-for="AvailableCategories"></span>
-
-                </div>
-            </div>
-        </div>*@
-            <div class="panel-body">
-                <div class="form-group">
-                    <div class="col-md-3">
-                        <nop-label asp-for="PromotionTypeId" />
-                    </div>
-                    <div class="col-md-9">
-                        <select asp-for="PromotionTypeId" class="form-control">
-                            <option value="10">New Arrival</option>
-                            <option value="20">Featured Product</option>
-                            <option value="30">BestSeller</option>
-                        </select>
-                        <span asp-validation-for="PromotionTypeId"></span>
-                    </div>
-                </div>
-            </div>
-            <div class="panel-body">
-                <div class="panel-body">
-                    @if (Model.Id > 0)
-                    {
+                @if (Model.Id > 0)
+                {
+                    <div class="panel-body">
                         <div class="form-group">
                             <div class="col-sm-3">
                                 <div class="label-wrapper">
-                                    <label class="control-label">Product</label>
+                                    <label class="control-label" for="CategoryName">Collection Category</label>
                                 </div>
                             </div>
                             <div class="col-sm-9">
-                                <div class="form-text-row">@Model.ProductName</div>
+                                <div class="form-text-row">@Model.CategoryName</div>
+                                <input type="hidden" asp-for="CategoryId" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-3">
+                                <div class="label-wrapper">
+                                    <nop-label asp-for="ProductName" />
+                                </div>
+                            </div>
+                            <div class="col-sm-9">
+                                <div class="form-text-row">
+                                    @Model.ProductName<br>
+                                    <small> <b>Category: </b> @Model.ProductCategoryName</small>
+                                </div>
                                 <input type="hidden" asp-for="ProductId" />
                             </div>
                         </div>
+                    </div>
+                }
+                else
+                {
+                    <div class="panel-body">
                         <div class="form-group">
-                            <div class="col-sm-3">
-                                <div class="label-wrapper">
-                                    <label class="control-label">Category</label>
-                                </div>
+                            <div class="col-md-3">
+                                <nop-label asp-for="CategoryId" />
                             </div>
-                            <div class="col-sm-9">
-                                <div class="form-text-row">@Model.ProductCategoryName</div>
+                            <div class="col-md-9">
+                                <select asp-for="CategoryId" class="form-control">
+                                    <option value="0">Please select category</option>
+                                    @foreach (var category in Model.AvailableCategories)
+                                    {
+                                        <option value="@category.Value">@category.Text</option>
+                                    }
+                                </select>
+                                <span asp-validation-for="CategoryId"></span>
                             </div>
                         </div>
-
-                    }
-                    else
-                    {
                         <div class="form-group">
                             <div class="col-md-3">
                                 <nop-label asp-for="ProductId" />
                             </div>
                             <div class="col-md-9">
-                                <div class="input-group input-group-sm">
-                                    <input type="text" id="search-product-name" autocomplete="off" class="form-control" placeholder="Type to search for product..." />
-                                    <span class="input-group-addon cursor-pointer" id="search-product-clear">
+                                <div class="input-group">
+                                    <input type="text"
+                                           id="search-product-name"
+                                           autocomplete="off"
+                                           class="form-control"
+                                           placeholder="Type to search for product..."
+                                           aria-describedby="productSearchHintBlock"
+                                           disabled />
+                                    <span class="input-group-addon" id="search-product-clear">
                                         <i class="fa fa-pencil"></i>
                                     </span>
                                     <input asp-for="ProductId" autocomplete="off" style="display: none;" />
-                                    <script>
-                                    $(document).ready(function() {
+                                </div>
+                                <span id="productSearchHintBlock" class="help-block">
+                                    Hint: Select category to enable product search
+                                </span>
+                                <script>
+
+                                    function resetAutocomplete() {
+                                        $('#@Html.IdFor(model => model.ProductId)').val('0');
+                                        $('#search-product-name').val('');
+                                        $('#search-product-clear i').removeClass('fa-times').addClass('fa-pencil');
+                                    }
+
+                                    function getAutocompleteItemHtml(item) {
+                                        return $("<li>")
+                                            .addClass('list-group-item')
+                                            .data("ui-autocomplete-item", item)
+                                            .append(`<a class="cursor-pointer" style="padding: 10px; border: none;">
+                                                <span class="badge pull-left">
+                                                ${item.category == '' ? 'Uncategorized' : item.category}
+                                                </span><br>
+                                                <h4 class="list-group-item-heading">${item.label}</h4>
+                                                <small>${item.vendor}</small>
+                                            </a>`);
+                                    }
+
+                                    function getNoResulthtml() {
+                                        return `<li class="list-group-item">
+                                            <a class="cursor-pointer" style="padding: 15px;">
+                                                <span class="badge pull-left"> No Result </span><br>
+                                                <h4 class="list-group-item-heading">
+                                                    No product found matching- <b>${$('#search-product-name').val()}</b>
+                                                </h4>
+                                                <small>Let's try different search term</small>
+                                            </a>
+                                        </li>`;
+                                    }
+
+                                    $(document).ready(function () {
+
+                                        // little validation
+                                        $('#CategoryId').change(function () {
+                                            if ($(this).val() > 0) {
+                                                $('#search-product-name').removeAttr('disabled');
+                                                $('#productSearchHintBlock').hide();
+                                            } else {
+                                                $('#search-product-name').attr('disabled', true);
+                                                $('#productSearchHintBlock').show();
+                                            }
+
+                                            // either way reset the autocomplete since category's been changed
+                                            resetAutocomplete();
+                                        });
+
                                         $('#search-product-name').autocomplete({
                                             delay: 500,
                                             minLength: 3,
-                                            source: '@Url.Action("ProductSearchAutoComplete", "SearchComplete")',
-                                            select: function(event, ui) {
-                                                $('#@Html.IdFor(model => model.ProductId)').val(ui.item.value);
-                                                $('#search-product-name').val(ui.item.label);
-                                                $('#search-product-clear i').removeClass('fa-pencil').addClass('fa-times');
+                                            source: function (request, response) {
+                                                $.ajax({
+                                                    url: '@Url.Action("ProductSearchAutoComplete", "SearchComplete")',
+                                                    dataType: 'json',
+                                                    data: {
+                                                        term: request.term,
+                                                        //categoryId: $('#CategoryId').val()
+                                                    },
+                                                    success: function (data) {
+                                                        if (data.length == 0)
+                                                            data.push({ noResult: true });
+                                                        response(data);
+                                                    }
+                                                });
+                                            },
+                                            select: function (event, ui) {
+                                                if (!ui.item) {
+                                                    event.preventDefault();
+                                                } else {
+                                                    $('#@Html.IdFor(model => model.ProductId)').val(ui.item.value);
+                                                    $('#search-product-name').val(ui.item.label);
+                                                    $('#search-product-clear i').removeClass('fa-pencil').addClass('fa-times');
+                                                }
                                                 return false;
                                             }
                                         })
                                             .data('ui-autocomplete')
                                             ._renderItem = function (ul, item) {
                                                 $(ul).addClass('list-group no-border');
-                                                return $("<li>")
-                                                    .addClass('list-group-item')
-                                                    .data("ui-autocomplete-item", item)
-                                                    .append(`<a class="cursor-pointer" style="padding: 10px; border: none;">
-                                                        <span class="badge pull-left">
-                                                        ${item.category == '' ? 'Uncategorized' : item.category}
-                                                        </span><br>
-                                                        <h4 class="list-group-item-heading">${item.label}</h4>
-                                                        <small>${item.vendor}</small>
-                                                    </a>`)
-                                                    .appendTo(ul);
+                                                const html = item.noResult ? getNoResulthtml() : getAutocompleteItemHtml(item);
+                                                return $(ul).append(html);
                                             };
 
                                         //remove button
-                                        $('#search-product-clear').click(function() {
-                                            $('#@Html.IdFor(model => model.ProductId)').val('0');
-                                            $('#search-product-name').val('');
-                                            $('#search-product-clear i').removeClass('fa-times').addClass('fa-pencil');
-                                            return false;
-                                        });
+                                        $('#search-product-clear').click(function () { resetAutocomplete(); });
                                     });
-                                    </script>
-                                </div>
+                                </script>
                             </div>
                         </div>
-                    }
-                </div>
+                    </div>
+                }
+
+
                 <div class="panel-body">
+                    <div class="form-group">
+                        <div class="col-md-3">
+                            <nop-label asp-for="PromotionTypeId" />
+                        </div>
+                        <div class="col-md-9">
+                            <nop-select asp-for="PromotionTypeId" asp-items="@(((PromotionType) Model.PromotionTypeId).ToSelectList())" />
+                            <span asp-validation-for="PromotionTypeId"></span>
+                        </div>
+                    </div>
                     <div class="form-group">
                         <div class="col-md-3">
                             <nop-label asp-for="StartDateUtc" />
@@ -160,8 +202,6 @@
                             <span asp-validation-for="StartDateUtc"></span>
                         </div>
                     </div>
-                </div>
-                <div class="panel-body">
                     <div class="form-group">
                         <div class="col-md-3">
                             <nop-label asp-for="EndDateUtc" />
@@ -172,6 +212,7 @@
                         </div>
                     </div>
                 </div>
+
                 <div class="panel-body">
                     <div class="form-group">
                         <div class="col-md-3">
@@ -186,4 +227,3 @@
             </div>
         </div>
     </div>
-

@@ -1,0 +1,315 @@
+﻿@model TopMenuModel
+
+@{
+    Layout = "_ColumnsOne";
+
+    //title
+    Html.AddTitleParts("All Categories");
+    //page class
+    Html.AppendPageCssClassParts("html-all-categories-page hide-nav");
+
+    Model.Categories = Model.Categories
+        .Where(x => x.IncludeInTopMenu
+            && !x.Name.Contains("Service")
+            && !x.Name.Contains("Courier"))
+        .ToList();
+}
+
+<style>
+
+    .close-mob-nav {
+        position: fixed;
+        top: 10px;
+        right: 10px;
+        z-index: 999;
+    }
+
+    .all-categories-page {
+        /*padding-top: 56px;*/
+        height: 100vh;
+    }
+
+    .navbar-brand {
+        font-size: 16px !important;
+    }
+
+    .category-nav {
+        width: 90px;
+        background: #fff;
+        height: 100%;
+    }
+
+        .category-nav .nav-link {
+            background: transparent;
+            color: #8c8c8c;
+            padding-left: 5px;
+            padding-right: 5px;
+            border-bottom: 1px solid rgba(105, 164, 31, .09);
+        }
+            .category-nav .nav-link:not(:first-child) {
+                opacity: .5;
+            }
+            .category-nav .nav-link.active {
+                position: relative;
+                background: rgba(105, 164, 31, .8);
+                color: #fff;
+                box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075) !important;
+                z-index: 1;
+                opacity: 1;
+            }
+
+                .category-nav .nav-link.active:after {
+                    right: -10px;
+                    border-left: 10px solid rgba(105, 164, 31, .8);
+                }
+
+                .category-nav .nav-link.active:after {
+                    content: '';
+                    position: absolute;
+                    top: 0;
+                    width: 0;
+                    height: 0;
+                    border-top: 36px solid transparent;
+                    border-bottom: 36px solid transparent;
+                }
+
+            .category-nav .nav-link img {
+                width: 24px;
+            }
+
+            .category-nav .nav-link span {
+                font-size: 12px;
+                line-height: 14px;
+                height: 28px;
+                overflow: hidden;
+            }
+
+    .tab-content {
+        box-shadow: 0 0 14px rgba(0,0,0,0.06);
+    }
+
+    .accordion .card-header .btn {
+        background: rgba(105, 164, 31, .4);
+        font-size: 12px !important;
+        line-height: 16px;
+    }
+    .accordion .card-header .btn.collapsed {
+        background: rgba(105, 164, 31, .2);
+    }
+
+    .accordion .card-header {
+        border: 1px solid rgba(105, 164, 31, .15);
+        border-bottom: 0;
+    }
+    .accordion .card-body {
+        border: 1px solid rgba(105, 164, 31, .5);
+        border-top: 0;
+        margin-left: 1px;
+        margin-right: 1px;
+    }
+
+    @@media all and (max-width: 460px) {
+        .tab-pane .col-4.px-1.py-1 {
+            flex: 50%;
+            max-width: 50%;
+        }
+    }
+
+</style>
+
+<div class="close-mob-nav">
+    <button class="btn bg-white text-light-green pt-2 pl-3 pr-3 rounded-pill">
+        <i class="fas fa-times"></i>
+    </button>
+</div>
+
+@*<nav class="navbar navbar-light bg-light-green navbar-expand shadow-sm fixed-top">
+    <a class="navbar-brand text-white align-items-center d-flex" href="/">
+        <i class="fas fa-long-arrow-alt-left"></i>
+        <span class="pl-2"> Just for You </span>
+    </a>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item pl-2 pr-2">
+                <a class="nav-link text-white" href="@Url.RouteUrl("ShoppingCart")">
+                    <i class="fas fa-shopping-cart"></i>
+                </a>
+            </li>
+            <li class="nav-item pl-2 pr-2">
+                <a class="nav-link text-white" href="@Url.RouteUrl("CustomerInfo")">
+                    <i class="fas fa-user"></i>
+                </a>
+            </li>
+        </ul>
+    </div>
+</nav>*@
+
+<div class="all-categories-page">
+    <div class="w-100 h-100">
+        <div class="row no-gutters h-100">
+            <div class="col-auto">
+                <nav class="category-nav">
+                    <div class="nav flex-column" id="nav-tab" role="tablist">
+
+                        @* Home *@
+                        <a class="nav-link bg-white pt-3 pb-3"
+                           href="/">
+
+                            <img src="/Themes/AgroMukam/Content/images/logo-new-small.png"
+                                 class="d-block m-auto" />
+
+                        </a>
+
+                        @* Just for you *@
+                        <a class="nav-link active"
+                           id="nav-00-tab"
+                           data-toggle="tab"
+                           href="#nav-00"
+                           role="tab"
+                           aria-controls="nav-00"
+                           aria-selected="true">
+
+                            <img src="/Themes/AgroMukam/Content/images/category-icons/just-for-you.png"
+                                 class="d-block m-auto" />
+                            <span class="d-block text-center mt-1"
+                                  style="font-size: 12px; font-weight: 400;">
+                                Just for You
+                            </span>
+
+                        </a>
+
+                        @* Category Tabs *@
+                        @foreach (var category in Model.Categories)
+                        {
+                            var imgSrc = "/Themes/Venture/Content/images/category-icons/" + category.SeName + "-colorful.png";
+
+                            <a class="nav-link"
+                               id="nav-@category.Id-tab"
+                               data-toggle="tab"
+                               href="#nav-@category.Id"
+                               role="tab"
+                               aria-controls="nav-@category.Id"
+                               aria-selected="false">
+                                <img src="@imgSrc"
+                                     alt="@category.Name"
+                                     class="d-block m-auto" />
+                                <span class="d-block text-center mt-1"
+                                      style="">
+                                    @category.Name
+                                </span>
+                            </a>
+                        }
+                    </div>
+                </nav>
+            </div>
+            <div class="col">
+                <div class="tab-content bg-white h-100 p-2" id="nav-tabContent">
+
+                    @* TabContent = Just for you *@
+                    <div class="tab-pane fade show active"
+                         id="nav-00"
+                         role="tabpanel"
+                         aria-labelledby="nav-00-tab">
+
+                        @{
+                            var randomCategories = new List<CategorySimpleModel>();
+
+                            foreach (var category in Model.Categories)
+                            {
+                                if (category.HaveSubCategories)
+                                {
+                                    foreach (var subcategory in category.SubCategories)
+                                    {
+                                        randomCategories.Add(subcategory);
+                                    }
+                                }
+                            }
+
+                            <div class="row no-gutters">
+                                @{
+                                    randomCategories = randomCategories.Take(15).ToList();
+                                    foreach (var category in randomCategories)
+                                    {
+                                        <div class="col-4 px-1 py-1">
+                                            <div class="card-banner cursor-pointer"
+                                                 onclick="setLocation('/@category.SeName')"
+                                                 style="height:100px;
+                                                background-image: url('@category.PictureModel.ImageUrl');">
+                                                <article class="card-body bg-gradient-green text-white p-2 d-flex align-items-center text-center">
+                                                    <h6 class="card-title w-100">@category.Name</h6>
+                                                </article>
+                                            </div>
+                                        </div>
+                                    }
+
+                                }
+                            </div>
+
+
+                        }
+
+                    </div>
+
+                    @* TabContent = Categories *@
+                    @foreach (var category in Model.Categories)
+                    {
+                        <div class="tab-pane p-1 fade"
+                             id="nav-@category.Id"
+                             role="tabpanel"
+                             aria-labelledby="nav-@category.Id-tab">
+
+                            <div class="w-100 mb-2">
+                                <div
+                                     class="card-banner cursor-pointer"
+                                     onclick="setLocation('/@category.SeName')"
+                                     style="height:120px; background-image: url('@category.PictureModel.ImageUrl');">
+                                    <article class="card-body bg-gradient-green text-white p-2 d-flex align-items-center text-center">
+                                        <h6 class="card-title w-100">@category.Name</h6>
+                                    </article>
+                                </div>
+                            </div>
+
+                            @if (category.HaveSubCategories)
+                            {
+                                @await Html.PartialAsync("_SubCategories", category.SubCategories)
+                            }
+
+                        </div>
+                    }
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script asp-location="Footer">
+    $(document).ready(function () {
+        console.log('m-model', JSON.parse(`@Json.Serialize(Model)`));
+
+        $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+            $('.navbar-brand span').text($(e.target).find('span').text().trim());
+            
+        })
+
+        $('.accordion').on('shown.bs.collapse', function () {
+            $(this).find('button:not(.collapsed) > i')
+                .removeClass('fa-chevron-down').addClass('fa-chevron-up');
+        });
+
+        $('.accordion').on('hidden.bs.collapse', function () {
+            $(this).find('button.collapsed > i')
+                .removeClass('fa-chevron-up').addClass('fa-chevron-down');
+        });
+
+        $('.close-mob-nav button').click(function () {
+            const host = window.location.origin;
+            if (document.referrer.includes(host)) {
+                window.history.back();
+            } else {
+                window.location.assign(host);
+            }
+        });
+
+    });
+</script>

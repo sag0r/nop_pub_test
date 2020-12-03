@@ -933,9 +933,9 @@ div.dataTables_wrapper div.dataTables_processing .fa {
     font-size: 16px;
     font-weight: bold;
 }
-.form-group {
+/*.form-group {
     margin-bottom: 5px;
-}
+}*/
 
 /*don't show the default input spinners*/
 .form-group input[type=number]::-webkit-outer-spin-button,

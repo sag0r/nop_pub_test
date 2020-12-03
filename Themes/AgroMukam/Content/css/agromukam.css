@@ -1,0 +1,7 @@
+﻿/* hide header & footer on auth pages */
+.html-login-page header,
+.html-login-page footer,
+.html-registration-page header,
+.html-registration-page footer {
+    display: none;
+}

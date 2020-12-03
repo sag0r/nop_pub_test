@@ -1,0 +1,136 @@
+﻿@using Nop.Core
+@using Nop.Core.Domain.Tax
+@using Nop.Services.Configuration
+
+@model FooterModel
+
+@inject IWorkContext workContext
+@inject IStoreContext storeContext
+@inject ISettingService settingService
+@inject IWebHelper webHelper
+@{
+    var isLoggedIn = !String.IsNullOrEmpty(workContext.CurrentCustomer.Email);
+    var loginUrl = Url.RouteUrl("VendorLogin", new { returnUrl = this.Context.Request.Query["returnUrl"] }, webHelper.CurrentRequestProtocol);
+    var vendorLoginUrl = isLoggedIn ? "/Admin" : loginUrl;
+
+}
+<footer class="section-footer border-top bg-white position-relative">
+    <div class="container-fluid">
+        <section class="footer-top padding-y">
+            <div class="row">
+                <aside class="col-md-3">
+                    <article class="mr-3">
+                        @await Component.InvokeAsync("Logo")
+
+                        <p class="mt-3">Some short text about company </p>
+                        <div>
+                            <a class="btn btn-icon btn-light" title="Facebook" target="_blank" href="#"><i class="fab fa-facebook-f"></i></a>
+                            <a class="btn btn-icon btn-light" title="Instagram" target="_blank" href="#"><i class="fab fa-instagram"></i></a>
+                            <a class="btn btn-icon btn-light" title="Youtube" target="_blank" href="#"><i class="fab fa-youtube"></i></a>
+                            <a class="btn btn-icon btn-light" title="Twitter" target="_blank" href="#"><i class="fab fa-twitter"></i></a>
+                        </div>
+                    </article>
+                </aside>
+                <aside class="col-md-3">
+                    <div class="title">
+                        <strong>@T("Footer.KnowUsBetter")</strong>
+                    </div>
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <a href="/about-us" class="nav-link">@T("Footer.KnowUsBetter.AboutUs")</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">@T("Footer.KnowUsBetter.WhyAgroMukam")</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">@T("Footer.KnowUsBetter.Careers")</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="@Url.RouteUrl("ContactUs")" class="nav-link">@T("Footer.KnowUsBetter.ContactUs")</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">@T("Footer.KnowUsBetter.Testimonials")</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">@T("Footer.KnowUsBetter.NewArrivals")</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">@T("Footer.KnowUsBetter.AgriSale")</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">@T("Footer.KnowUsBetter.TodaysOffer")</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">@T("Footer.KnowUsBetter.AgriTalk")</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">@T("Footer.KnowUsBetter.HowReferralWorks")</a>
+                        </li>
+                    </ul>
+                </aside>
+                <aside class="col-md-3">
+                    <div class="title">
+                        <strong>@T("Footer.OurPolicies")</strong>
+                    </div>
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">@T("Footer.OurPolicies.PrivacyPolicy")</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">@T("Footer.OurPolicies.ShippingDelivery")</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">@T("Footer.OurPolicies.CancellationPolicy")</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">@T("Footer.OurPolicies.ReturnPolicy")</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">@T("Footer.OurPolicies.FAQ")</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">@T("Footer.OurPolicies.TermsOfUse")</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">@T("Footer.OurPolicies.SellerTermsAndConditions")</a>
+                        </li>
+                    </ul>
+                </aside>
+                <aside class="col-md-3">
+                    <div class="title">
+                        <strong>@T("Footer.Services")</strong>
+                    </div>
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">@T("Footer.Services.SellOnAgroMukam")</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">@T("Footer.Services.BestServices")</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">@T("Footer.Services.Sitemap")</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="@Url.RouteUrl("CustomerInfo")" class="nav-link">@T("Footer.CustomerLogin")</a>
+                        </li>
+                        @*<li class="nav-item">
+                                <a href="@Url.RouteUrl("CustomerInfo")" class="nav-link">@T("Footer.DoctorLogin")</a>
+                            </li>*@
+                        <li class="nav-item">
+                            <a href="@vendorLoginUrl" class="nav-link">@T("Footer.VendorLogin")</a>
+                        </li>
+                    </ul>
+                </aside>
+            </div> <!-- row.// -->
+        </section>	<!-- footer-top.// -->
+
+        <section class="footer-copyright border-top">
+            <p target="_blank" class="float-right text-muted">
+                <a href="#">Privacy &amp; Cookies</a> &nbsp;   &nbsp;
+                <a href="#">Accessibility</a>
+            </p>
+            <p class="text-muted"> © 2020 Company  All rights resetved </p>
+
+        </section>
+    </div><!-- //container -->
+</footer>
