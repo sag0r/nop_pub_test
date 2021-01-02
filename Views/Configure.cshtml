@@ -8,6 +8,238 @@
 <form asp-controller="WidgetsNivoSlider" asp-action="Configure" method="post">
     <div class="panel-group">
         <div class="panel panel-default">
+            <div class="panel-body">
+                <div class="form-group">
+                    <div class="col-md-9 col-md-offset-3">
+                        <input type="submit" name="save" class="btn bg-blue" value="@T("Admin.Common.Save")" />
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                @T("Plugins.Widgets.NivoSlider.General")
+            </div>
+            <div class="panel-body">
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <nop-label asp-for="StaticTagLineText" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="StaticTagLineText" />
+                        <span asp-validation-for="StaticTagLineText"></span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <nop-label asp-for="Interval" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="Interval" />
+                        <span asp-validation-for="Interval"></span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <nop-label asp-for="BannerHeight" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="BannerHeight" />
+                        <span asp-validation-for="BannerHeight"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                @T("Plugins.Widgets.NivoSlider.BoxSettings")
+            </div>
+            <div class="panel-body">
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <nop-label asp-for="BoxTextTop" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="BoxTextTop" />
+                        <span asp-validation-for="BoxTextTop"></span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <nop-label asp-for="BoxTextBottom" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="BoxTextBottom" />
+                        <span asp-validation-for="BoxTextBottom"></span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <nop-label asp-for="BoxButtonText" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="BoxButtonText" />
+                        <span asp-validation-for="BoxButtonText"></span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <nop-label asp-for="BoxButtonLink" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="BoxButtonLink" />
+                        <span asp-validation-for="BoxButtonLink"></span>
+                    </div>
+                </div>
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        @T("Plugins.Widgets.NivoSlider.BoxIcons")
+                    </div>
+                    <div class="panel-body">
+                        <div class="form-group">
+                            <div class="col-md-3">
+                                <nop-label asp-for="BoxIcon1Id" />
+                            </div>
+                            <div class="col-md-9">
+                                <nop-editor asp-for="BoxIcon1Id" />
+                                <span asp-validation-for="BoxIcon1Id"></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-3">
+                                <nop-label asp-for="BoxIcon1Text" />
+                            </div>
+                            <div class="col-md-9">
+                                <nop-editor asp-for="BoxIcon1Text" />
+                                <span asp-validation-for="BoxIcon1Text"></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-3">
+                                <nop-label asp-for="BoxIcon1Link" />
+                            </div>
+                            <div class="col-md-9">
+                                <nop-editor asp-for="BoxIcon1Link" />
+                                <span asp-validation-for="BoxIcon1Link"></span>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="form-group">
+                            <div class="col-md-3">
+                                <nop-label asp-for="BoxIcon2Id" />
+                            </div>
+                            <div class="col-md-9">
+                                <nop-editor asp-for="BoxIcon2Id" />
+                                <span asp-validation-for="BoxIcon2Id"></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-3">
+                                <nop-label asp-for="BoxIcon2Text" />
+                            </div>
+                            <div class="col-md-9">
+                                <nop-editor asp-for="BoxIcon2Text" />
+                                <span asp-validation-for="BoxIcon2Text"></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-3">
+                                <nop-label asp-for="BoxIcon2Link" />
+                            </div>
+                            <div class="col-md-9">
+                                <nop-editor asp-for="BoxIcon2Link" />
+                                <span asp-validation-for="BoxIcon2Link"></span>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="form-group">
+                            <div class="col-md-3">
+                                <nop-label asp-for="BoxIcon3Id" />
+                            </div>
+                            <div class="col-md-9">
+                                <nop-editor asp-for="BoxIcon3Id" />
+                                <span asp-validation-for="BoxIcon3Id"></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-3">
+                                <nop-label asp-for="BoxIcon3Text" />
+                            </div>
+                            <div class="col-md-9">
+                                <nop-editor asp-for="BoxIcon3Text" />
+                                <span asp-validation-for="BoxIcon3Text"></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-3">
+                                <nop-label asp-for="BoxIcon3Link" />
+                            </div>
+                            <div class="col-md-9">
+                                <nop-editor asp-for="BoxIcon3Link" />
+                                <span asp-validation-for="BoxIcon3Link"></span>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="form-group">
+                            <div class="col-md-3">
+                                <nop-label asp-for="BoxIcon4Id" />
+                            </div>
+                            <div class="col-md-9">
+                                <nop-editor asp-for="BoxIcon4Id" />
+                                <span asp-validation-for="BoxIcon4Id"></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-3">
+                                <nop-label asp-for="BoxIcon4Text" />
+                            </div>
+                            <div class="col-md-9">
+                                <nop-editor asp-for="BoxIcon4Text" />
+                                <span asp-validation-for="BoxIcon4Text"></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-3">
+                                <nop-label asp-for="BoxIcon4Link" />
+                            </div>
+                            <div class="col-md-9">
+                                <nop-editor asp-for="BoxIcon4Link" />
+                                <span asp-validation-for="BoxIcon4Link"></span>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="form-group">
+                            <div class="col-md-3">
+                                <nop-label asp-for="BoxIcon5Id" />
+                            </div>
+                            <div class="col-md-9">
+                                <nop-editor asp-for="BoxIcon5Id" />
+                                <span asp-validation-for="BoxIcon5Id"></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-3">
+                                <nop-label asp-for="BoxIcon5Text" />
+                            </div>
+                            <div class="col-md-9">
+                                <nop-editor asp-for="BoxIcon5Text" />
+                                <span asp-validation-for="BoxIcon5Text"></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-3">
+                                <nop-label asp-for="BoxIcon5Link" />
+                            </div>
+                            <div class="col-md-9">
+                                <nop-editor asp-for="BoxIcon5Link" />
+                                <span asp-validation-for="BoxIcon5Link"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="panel panel-default">
             <div class="panel-heading">
                 @T("Plugins.Widgets.NivoSlider.Picture1")
             </div>
