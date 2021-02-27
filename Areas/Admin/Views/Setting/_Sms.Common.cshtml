@@ -1,0 +1,33 @@
+﻿@model SmsSettingsModel
+<div class="panel-body">
+    <div class="form-group">
+        <div class="col-md-3">
+            <nop-override-store-checkbox asp-for="ApiToken_OverrideForStore" asp-input="ApiToken" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+            <nop-label asp-for="ApiToken" />
+        </div>
+        <div class="col-md-9">
+            <nop-editor asp-for="ApiToken" />
+            <span asp-validation-for="ApiToken"></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-3">
+            <nop-override-store-checkbox asp-for="Sid_OverrideForStore" asp-input="Sid" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+            <nop-label asp-for="Sid" />
+        </div>
+        <div class="col-md-9">
+            <nop-editor asp-for="Sid" />
+            <span asp-validation-for="Sid"></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-3">
+            <nop-override-store-checkbox asp-for="Uri_OverrideForStore" asp-input="Uri" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+            <nop-label asp-for="Uri" />
+        </div>
+        <div class="col-md-9">
+            <nop-editor asp-for="Uri" />
+            <span asp-validation-for="Uri"></span>
+        </div>
+    </div>
+</div>

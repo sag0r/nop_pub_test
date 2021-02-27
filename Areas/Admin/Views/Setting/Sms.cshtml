@@ -1,0 +1,36 @@
+﻿@model SmsSettingsModel
+@{
+    //page title
+    ViewBag.PageTitle = T("Admin.Configuration.Settings.Sms").Text;
+    //active menu item (system name)
+    Html.SetActiveMenuItemSystemName("Sms settings");
+}
+@{
+    const string hideCommonBlockAttributeName = "SmsSettingsPage.HideCommonBlock";
+    var hideCommonBlock = genericAttributeService.GetAttribute<bool>(workContext.CurrentCustomer, hideCommonBlockAttributeName);
+}
+<form asp-controller="Setting" asp-action="Sms" method="post">
+    <div class="content-header clearfix">
+        <h1 class="pull-left">
+            @T("Admin.Configuration.Settings.Sms")
+        </h1>
+        <div class="pull-right">
+            <button type="submit" name="save" class="btn bg-blue">
+                <i class="fa fa-floppy-o"></i>
+                @T("Admin.Common.Save")
+            </button>
+            @await Component.InvokeAsync("AdminWidget", new { widgetZone = AdminWidgetZones.SmsSettingsButtons })
+        </div>
+    </div>
+    <div class="content">
+        <div class="form-horizontal">
+            @await Component.InvokeAsync("StoreScopeConfiguration")
+            @await Component.InvokeAsync("SettingMode")
+            <div asp-validation-summary="All"></div>
+            <nop-panels id="smssettings-panels">
+                <nop-panel asp-name="smssettings-common" asp-icon="fa fa-info" asp-title="@T("Admin.Configuration.Settings.Sms.BlockTitle.Common")" asp-hide-block-attribute-name="@hideCommonBlockAttributeName" asp-hide="@hideCommonBlock" asp-advanced="false">@await Html.PartialAsync("_Sms.Common", Model)</nop-panel>
+                @await Component.InvokeAsync("AdminWidget", new { widgetZone = AdminWidgetZones.SmsDetailsBlock, additionalData = Model })
+            </nop-panels>
+        </div>
+    </div>
+</form>
